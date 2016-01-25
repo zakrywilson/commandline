@@ -1,0 +1,5 @@
+# Do not include
+*.iml
+.idea
+out
+test
