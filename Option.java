@@ -150,8 +150,8 @@ public class Option {
    * @return true if the tag exists
    */
   public boolean hasTag(final String tag) {
-    return (longName != null && longName.equals(tag)) ||
-           (shortName != null && shortName.equals(tag));
+    return (this.longName != null && this.longName.equals(tag)) ||
+           (this.shortName != null && this.shortName.equals(tag));
   }
 
   /**
