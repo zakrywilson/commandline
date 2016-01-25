@@ -40,8 +40,17 @@ public class CommandLine {
    * @param args - command line arguments
    */
   public void parse(final String[] args) {
+
+    // Parse command line arguments
     Parser parser = new Parser(args, options);
     parser.parse();
+
+    // Check for missing required options
+    for (Option option : this.options) {
+      if (option.isRequired() && !option.hasArguments()) {
+        throw new IllegalArgumentException("Required option '" + option.getName() + "'.");
+      }
+    }
   }
 
   @Override

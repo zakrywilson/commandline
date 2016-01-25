@@ -27,6 +27,9 @@ public class Option {
   /** The number of preceeding arguments */
   private int argCount;
 
+  /** Indicated whether option is required or not */
+  private boolean required;
+
   /**
    * Constructor.
    */
@@ -37,6 +40,7 @@ public class Option {
     this.description = null;
     this.arguments = new ArrayList<>();
     this.argCount = 0;
+    this.required = false;
   }
 
   /**
@@ -163,10 +167,26 @@ public class Option {
   }
 
   /**
-   * Determines whether there exists an associated arguments for the option.
-   * @return true if an arguments exists
+   * Sets whether option is required or not. By default, it is set to false.
+   * @param required - whether option is required
    */
-  public boolean hasArgument() {
+  public void isRequired(final boolean required) {
+    this.required = required;
+  }
+
+  /**
+   * Returns whether option is required or not.
+   * @return true if option is required
+   */
+  public boolean isRequired() {
+    return this.required;
+  }
+
+  /**
+   * Determines whether there exists an associated arguments for the option.
+   * @return true if at least one argument exists
+   */
+  public boolean hasArguments() {
     return !this.arguments.isEmpty();
   }
 

@@ -70,7 +70,7 @@ public class Parser {
 
         // Do not re-check options with arguments
         // Check if argument matches long or short name
-        if (!option.hasArgument() && option.hasTag(arg)) {
+        if (!option.hasArguments() && option.hasTag(arg)) {
 
           // Number of arguments preceeding an option is known
           // Keep looping through until that number is expelled
