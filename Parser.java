@@ -20,11 +20,10 @@ public class Parser {
 
   /**
    * Constructor.
-   * Not used.
    */
   @SuppressWarnings("unused")
   private Parser() {
-    // no used
+    // not used
   }
 
   /**
