@@ -183,10 +183,10 @@ public class Option {
   }
 
   /**
-   * Determines whether there exists an associated arguments for the option.
+   * Determines whether there exists associated arguments for the option.
    * @return true if at least one argument exists
    */
-  public boolean hasArguments() {
+  public boolean isFound() {
     return !this.arguments.isEmpty();
   }
 

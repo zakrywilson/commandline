@@ -47,7 +47,7 @@ public class CommandLine {
 
     // Check for missing required options
     for (Option option : this.options) {
-      if (option.isRequired() && !option.hasArguments()) {
+      if (option.isRequired() && !option.isFound()) {
         throw new IllegalArgumentException("Required option '" + option.getName() + "'.");
       }
     }
