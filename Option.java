@@ -173,7 +173,7 @@ public class Option {
 
   /**
    * Set whether there exists associated arguments for the option.
-   * @param found - sets whether one or more arguments have been found
+   * @param found - sets whether option has been found
    */
   public void isFound(final boolean found) {
     this.found = found;
@@ -181,7 +181,7 @@ public class Option {
 
   /**
    * Determines whether there exists associated arguments for the option.
-   * @return true if at least one argument exists
+   * @return true if option has been found
    */
   public boolean isFound() {
     return this.found;
@@ -209,6 +209,11 @@ public class Option {
     // Argument count
     builder.append("Argument count: " );
     builder.append(this.argCount);
+    builder.append("\n");
+
+    // Found
+    builder.append("Found: ");
+    builder.append(this.found);
     builder.append("\n");
 
     // Description

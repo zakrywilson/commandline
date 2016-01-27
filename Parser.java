@@ -46,11 +46,11 @@ public class Parser {
     // Iterates over the arguments list
     Iterator<String> iterator = this.args.iterator();
 
-    // Keeps track of whether a first argument has been checked
+    // Keeps track of whether a first argument has been obtained
     boolean firstArgument = true;
 
-    // Iterate over entire arguments list
-    while(iterator.hasNext()) {
+    // Iterate over arguments list
+    while (iterator.hasNext()) {
 
       // Get the first argument
       String arg = iterator.next();
@@ -92,6 +92,7 @@ public class Parser {
             // If all checks out, assign argument into it's associated option
             option.addArgument(a);
           }
+          option.isFound(true);
         }
       }
     }
