@@ -49,19 +49,21 @@ public class CommandLine {
     parser.parse();
 
     // Check for missing required options
-    for (Option option : this.options) {
-      if (option.isRequired() && !option.isFound()) {
-        throw new IllegalArgumentException("Required option '" + option.getName() + "'.");
+    if (!this.help.isFound()) {
+      for (Option option : this.options) {
+        if (option.isRequired() && !option.isFound()) {
+          throw new IllegalArgumentException("Required option '" + option.getName() + "'.");
+
+        }
       }
     }
   }
 
   /**
-   * Gets the help information.
-   * @return help information
+   * Prints the help information.
    */
-  public String getHelp() {
-    return this.help.getDescription();
+  public void getHelp() {
+    System.out.println(this.help.getDescription());
   }
 
   /**
@@ -72,6 +74,15 @@ public class CommandLine {
     this.help = new Option();
     this.help.addLongName("help");
     this.help.addDescription(help);
+    this.options.add(this.help);
+  }
+
+  /**
+   * Determines whether the "--help" option is found.
+   * @return true if the help option is found
+   */
+  public boolean needHelp() {
+    return this.help.isFound();
   }
 
   @Override
