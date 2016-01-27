@@ -61,9 +61,10 @@ public class CommandLine {
 
   /**
    * Prints the help information.
+   * @return help information
    */
-  public void getHelp() {
-    System.out.println(this.help.getDescription());
+  public String getHelp() {
+    return this.help.getDescription();
   }
 
   /**
