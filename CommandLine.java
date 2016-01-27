@@ -12,11 +12,14 @@ public class CommandLine {
   /** Optional command line arguments */
   private ArrayList<Option> options;
 
+  /** Help information option */
+  private Option help;
+
   /**
    * Constructor.
    */
   CommandLine() {
-    options = new ArrayList<>();
+    this.options = new ArrayList<>();
   }
 
   /**
@@ -51,6 +54,24 @@ public class CommandLine {
         throw new IllegalArgumentException("Required option '" + option.getName() + "'.");
       }
     }
+  }
+
+  /**
+   * Gets the help information.
+   * @return help information
+   */
+  public String getHelp() {
+    return this.help.getDescription();
+  }
+
+  /**
+   * Creates help information option.
+   * @param help - help information
+   */
+  public void createHelp(final String help) {
+    this.help = new Option();
+    this.help.addLongName("help");
+    this.help.addDescription(help);
   }
 
   @Override

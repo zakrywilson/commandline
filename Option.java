@@ -30,6 +30,9 @@ public class Option {
   /** Indicated whether option is required or not */
   private boolean required;
 
+  /** Indicated whether option has been provided or not */
+  private boolean found;
+
   /**
    * Constructor.
    */
@@ -41,6 +44,7 @@ public class Option {
     this.arguments = new ArrayList<>();
     this.argCount = 0;
     this.required = false;
+    this.found = false;
   }
 
   /**
@@ -72,7 +76,7 @@ public class Option {
    * Gets long name of option.
    * @return long name
    */
-  public String getLongName() {
+  String getLongName() {
     return this.longName;
   }
 
@@ -105,7 +109,7 @@ public class Option {
    * The default count is 0.
    * @param count - number of preceeding arguments
    */
-  public void addArgumentCount(final int count)  {
+  public void addExpectedArgCount(final int count)  {
     this.argCount = count;
   }
 
@@ -113,7 +117,7 @@ public class Option {
    * Gets arguments count of option.
    * @return number of preceeding arguments
    */
-  public int getArgumentCount() {
+  int getExpectedArgCount() {
     return this.argCount;
   }
 
@@ -121,49 +125,34 @@ public class Option {
    * Gets the arguments of the option.
    * @return arguments
    */
-  public ArrayList<String> getArguments() {
+  ArrayList<String> getArguments() {
     return this.arguments;
+  }
+
+  /**
+   * Gets the arguments with the specified index.
+   * @param index - specified index of argument in list
+   * @return argument
+   */
+  public String getArgument(final int index) {
+    return this.arguments.get(index);
   }
 
   /**
    * Adds an arguments of the option.
    * @param argument - associated arguments of the option
    */
-  public void addArgument(final String argument) {
+  void addArgument(final String argument) {
     this.arguments.add(argument);
-  }
-
-  /**
-   * Determines whether there exists a short name for the option.
-   * @return true if a short name exists
-   */
-  public boolean hasShortName() {
-    return this.shortName != null;
-  }
-
-  /**
-   * Determines whether there exists a long name for the option.
-   * @return true if a long name exists
-   */
-  public boolean hasLongName() {
-    return this.longName != null;
   }
 
   /**
    * Determines whether there exists a tag for the option: short or long name.
    * @return true if the tag exists
    */
-  public boolean hasTag(final String tag) {
+  boolean hasTag(final String tag) {
     return (this.longName != null && this.longName.equals(tag)) ||
            (this.shortName != null && this.shortName.equals(tag));
-  }
-
-  /**
-   * Determines whether there exists a description for the option.
-   * @return true if a description exists
-   */
-  public boolean hasDescription() {
-    return this.description != null;
   }
 
   /**
@@ -178,8 +167,16 @@ public class Option {
    * Returns whether option is required or not.
    * @return true if option is required
    */
-  public boolean isRequired() {
+  boolean isRequired() {
     return this.required;
+  }
+
+  /**
+   * Set whether there exists associated arguments for the option.
+   * @param found - sets whether one or more arguments have been found
+   */
+  public void isFound(final boolean found) {
+    this.found = found;
   }
 
   /**
@@ -187,7 +184,7 @@ public class Option {
    * @return true if at least one argument exists
    */
   public boolean isFound() {
-    return !this.arguments.isEmpty();
+    return this.found;
   }
 
   @Override

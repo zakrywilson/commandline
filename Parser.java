@@ -74,13 +74,13 @@ public class Parser {
 
           // Number of arguments preceeding an option is known
           // Keep looping through until that number is expelled
-          for(int counter = 0; counter < option.getArgumentCount(); ++counter) {
+          for(int counter = 0; counter < option.getExpectedArgCount(); ++counter) {
 
             // If there is no next-item, an item is missing: throw exception
             if (!iterator.hasNext()) {
               throw new IllegalArgumentException("Missing argument for option '" +
                 option.getName() + "'. Given " + counter + ", expected " +
-                option.getArgumentCount() + ".");
+                option.getExpectedArgCount() + ".");
             }
 
             // Ensuring no option is found here because more args are expected
