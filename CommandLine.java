@@ -73,6 +73,7 @@ public class CommandLine {
    */
   public void createHelp(final String help) {
     this.help = new Option();
+    this.help.addShortName("h");
     this.help.addLongName("help");
     this.help.addDescription(help);
     this.options.add(this.help);
