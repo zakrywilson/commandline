@@ -2,6 +2,7 @@
  * Created by Zach Wilson on 1/23/16
  */
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -52,6 +53,9 @@ public class Option {
    * @param name - short name of option
    */
   public void addShortName(final String name) {
+    if (this.name == null) {
+      this.name = name;
+    }
     this.shortName = "-" + name;
   }
 
@@ -142,7 +146,7 @@ public class Option {
    * Adds an arguments of the option.
    * @param argument - associated arguments of the option
    */
-  void addArgument(final String argument) {
+  void addArgument(String argument) {
     this.arguments.add(argument);
   }
 
@@ -185,6 +189,54 @@ public class Option {
    */
   public boolean isFound() {
     return this.found;
+  }
+
+  /**
+   * Determines whether the first argument is a valid file.
+   * @return true if the first argument is a valid file
+   */
+  public boolean isFile() {
+    File file = new File(this.arguments.get(0));
+    return file.exists();
+  }
+
+  /**
+   * Determines whether the arguments are valid files.
+   * @return true if all arguments are valid files
+   */
+  public boolean areFiles() {
+    for (String argument : this.arguments) {
+      File file = new File(argument);
+      if (!file.exists()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  boolean isANumber(int index) {
+    return this.arguments.get(index).matches("(\\d+(\\.\\d+)?)|(\\.\\d+)");
+  }
+
+  /**
+   * Determines whether the first argument is a number.
+   * @return true if the argument is a number
+   */
+  public boolean isNumeric() {
+    return isANumber(0);
+  }
+
+  /**
+   * Determines whether all arguments are numeric.
+   * @return true if all arguments are numbers
+   */
+  public boolean areNumeric() {
+    for (int index = 0; index < this.arguments.size(); ++index) {
+      if (!isANumber(index)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
