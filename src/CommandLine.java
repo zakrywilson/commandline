@@ -52,8 +52,8 @@ public class CommandLine {
     if (!this.help.isFound()) {
       for (Option option : this.options) {
         if (option.isRequired() && !option.isFound()) {
-          throw new IllegalArgumentException("Required option '" + option.getName() + "'.");
-
+          throw new IllegalArgumentException("Missing required option '" +
+            option.getName() + "'.");
         }
       }
     }
