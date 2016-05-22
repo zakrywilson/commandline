@@ -41,8 +41,8 @@ public class CommandLine {
      * Gets command line option.
      * @return command line option.
      */
-    public ArrayList getOptions() {
-        return new ArrayList<>(options);
+    public ArrayList<Option> getOptions() {
+        return new ArrayList<Option>(options);
     }
 
     /**
