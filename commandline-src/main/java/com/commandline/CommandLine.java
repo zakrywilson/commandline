@@ -28,7 +28,7 @@ public class CommandLine {
      * @param optionName the option's short or long name.
      * @return argument of the option; but if no argument is found, null.
      */
-    public String getOptionValue(final String optionName) {
+    public String getOptionByName(final String optionName) {
         for (Option option : this.options) {
             if (option.hasTag(optionName)) {
                 return option.getArgumentAtIndex(0);
