@@ -69,7 +69,7 @@ public class Parser {
                 // Check if argument matches long or short name
                 if (!option.isFound() && option.hasTag(arg)) {
 
-                    // Number of arguments preceeding an option is known
+                    // Number of arguments preceding an option is known
                     // Keep looping through until that number is expelled
                     for(int counter = 0; counter < option.getExpectedArgumentCount(); ++counter) {
 
