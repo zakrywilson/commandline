@@ -70,7 +70,7 @@ public final class Option {
     public String getLongName() {
         return this.longName.substring(2, this.longName.length());
     }
-
+    
     /**
      * Adds description of option.
      * @param description description of option.
@@ -89,7 +89,7 @@ public final class Option {
 
     /**
      * Adds arguments count of option: how many arguments preceded. The default count is 0.
-     * @param count number of preceeding arguments.
+     * @param count number of preceding arguments.
      */
     public void setExpectedArgumentCount(final int count)  {
         this.argCount = count;
@@ -97,7 +97,7 @@ public final class Option {
 
     /**
      * Gets arguments count of option.
-     * @return number of preceeding arguments.
+     * @return number of preceding arguments.
      */
     public int getExpectedArgumentCount() {
         return this.argCount;
@@ -124,7 +124,7 @@ public final class Option {
      * Adds an arguments of the option.
      * @param argument associated arguments of the option.
      */
-    public void addArgument(String argument) {
+    void addArgument(String argument) {
         this.arguments.add(argument);
     }
 
@@ -135,7 +135,7 @@ public final class Option {
      */
     public boolean hasTag(final String tag) {
         return (this.longName != null && this.longName.equals(tag)) ||
-                (this.shortName != null && this.shortName.equals(tag));
+               (this.shortName != null && this.shortName.equals(tag));
     }
 
     /**

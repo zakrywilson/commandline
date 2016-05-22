@@ -36,6 +36,9 @@ public class OptionTest {
 
     /** The file3 path name. */
     private static final String fileName3 = testDirName + "file3.txt";
+    
+    /** <code>Option#addArgument(String)</code> package protected method. */
+    private static Method addArgument;
 
     /**
      * Create test directory and test file within it.
@@ -123,9 +126,22 @@ public class OptionTest {
     public void testArguments() {
         String[] args = new String[] { "Arg 1", "Arg 2", "Arg 3" };
         Option option = new Option("o");
-        option.addArgument(args[0]);
-        option.addArgument(args[1]);
-        option.addArgument(args[2]);
+        
+        try {
+            addArgument = option.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+
+        try {
+            addArgument.invoke(option, args[0]);
+            addArgument.invoke(option, args[1]);
+            addArgument.invoke(option, args[2]);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
+
         List<String> list = option.getAllArguments();
         for (int i = 0; i < list.size(); ++i) {
             if (!list.get(i).equals(args[i])) {
@@ -142,8 +158,21 @@ public class OptionTest {
         String arg1 = "Arg 1";
         String arg2 = "Arg 2";
         Option option = new Option("o");
-        option.addArgument(arg1);
-        option.addArgument(arg2);
+        
+        try {
+            addArgument = option.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+
+        try {
+            addArgument.invoke(option, arg1);
+            addArgument.invoke(option, arg2);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
+
         // Test argument 0
         if (!option.getArgumentAtIndex(0).equals(arg1)) {
             Assert.fail("Failed on argument: " + option.getArgumentAtIndex(0) + "--should have been " + arg1 + ".");
@@ -207,7 +236,7 @@ public class OptionTest {
      * Method: setFound(final boolean found), setFound().
      */
     @Test
-    public void testIsFoundFound() {
+    public void testsetFound() {
         Option option = new Option("o");
         // By default, 'setFound' should be false
         if (option.isFound()) {
@@ -237,13 +266,34 @@ public class OptionTest {
     public void testIsFile() {
         // File that does not exist
         Option nonFile = new Option("o");
-        nonFile.addArgument("non-file.txt");
+        try {
+            addArgument = nonFile.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(nonFile, "non-file.txt");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (nonFile.isFile()) {
             Assert.fail("Failed on non-file.");
         }
+
         // File that exists
         Option file = new Option("o");
-        file.addArgument(fileName1);
+        try {
+            addArgument = file.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(file, fileName1);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (!file.isFile()) {
             Assert.fail("Failed on real file.");
         }
@@ -256,18 +306,44 @@ public class OptionTest {
     public void testAreFiles() {
         // Files--some of which do no exist
         Option bad = new Option("o");
-        bad.addArgument("non-file0.txt");
-        bad.addArgument(fileName1);
-        bad.addArgument("non-file2.txt");
+        
+        try {
+            addArgument = bad.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+
+        try {
+            addArgument.invoke(bad, "non-file0.txt");
+            addArgument.invoke(bad, fileName1);
+            addArgument.invoke(bad, "non-file2.txt");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
+        
         if (bad.areFiles()) {
             Assert.fail("Failed on files that do not exist.");
         }
 
         // Files that exist
         Option good = new Option("o");
-        good.addArgument(fileName1);
-        good.addArgument(fileName2);
-        good.addArgument(fileName3);
+        
+        try {
+            addArgument = good.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+
+        try {
+            addArgument.invoke(good, fileName1);
+            addArgument.invoke(good, fileName2);
+            addArgument.invoke(good, fileName3);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
+        
         if (!good.areFiles()) {
             Assert.fail("Failed on files that exist.");
         }
@@ -280,25 +356,69 @@ public class OptionTest {
     public void testIsNumeric() {
         // Non numeric value
         Option nonNumeric = new Option("o");
-        nonNumeric.addArgument("option");
+        try {
+            addArgument = nonNumeric.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(nonNumeric, "option");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (nonNumeric.isNumeric()) {
             Assert.fail("Failed on non numeric.");
         }
+
         // Integer value
         Option integer = new Option("o");
-        integer.addArgument("1234");
+        try {
+            addArgument = integer.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(integer, "1234");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
+        
         if (!integer.isNumeric()) {
             Assert.fail("Failed on integer.");
         }
+
         // Decimal value
         Option decimal = new Option("o");
-        decimal.addArgument("12.34");
+        try {
+            addArgument = decimal.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(decimal, "12.34");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (!decimal.isNumeric()) {
             Assert.fail("Failed on decimal.");
         }
+
         // Invalid decimal value
         Option invalidDecimal = new Option("o");
-        invalidDecimal.addArgument("1.");
+        try {
+            addArgument = invalidDecimal.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(invalidDecimal, "1.");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (invalidDecimal.isNumeric()) {
             Assert.fail("Failed on invalid decimal.");
         }
@@ -312,33 +432,76 @@ public class OptionTest {
     public void testAreNumeric() {
         // Non numeric values
         Option nonNumeric = new Option("o");
-        nonNumeric.addArgument("These");
-        nonNumeric.addArgument("are");
-        nonNumeric.addArgument("command line arguments.");
+        try {
+            addArgument = nonNumeric.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(nonNumeric, "These");
+            addArgument.invoke(nonNumeric, "are");
+            addArgument.invoke(nonNumeric, "command line arguments.");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (nonNumeric.areAllNumeric()) {
             Assert.fail("Failed on non-numeric values.");
         }
+
         // Integer values
         Option integers = new Option("o");
-        integers.addArgument("1");
-        integers.addArgument("23");
-        integers.addArgument("456");
+        try {
+            addArgument = integers.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(integers, "1");
+            addArgument.invoke(integers, "12");
+            addArgument.invoke(integers, "456");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (!integers.areAllNumeric()) {
             Assert.fail("Failed on integer values.");
         }
+
         // Decimal values
         Option decimals = new Option("o");
-        decimals.addArgument("1");
-        decimals.addArgument("2.3");
-        decimals.addArgument("4.5");
-        decimals.addArgument(".129");
+        try {
+            addArgument = decimals.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(decimals, "1");
+            addArgument.invoke(decimals, "2.3");
+            addArgument.invoke(decimals, "4.5");
+            addArgument.invoke(decimals, ".129");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (!decimals.areAllNumeric()) {
             Assert.fail("Failed on decimal values.");
         }
+
         // Mixed strings and numbers
         Option mixed = new Option("o");
-        mixed.addArgument("String");
-        mixed.addArgument("1234");
+        try {
+            addArgument = mixed.getClass().getDeclaredMethod("addArgument", String.class);
+            addArgument.setAccessible(true);
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String)'.");
+        }
+        try {
+            addArgument.invoke(mixed, "String");
+            addArgument.invoke(mixed, "1234");
+        } catch (Throwable t) {
+            Assert.fail("Failed to obtain method 'Option#addArgument(String) through reflections.");
+        }
         if (mixed.areAllNumeric()) {
             Assert.fail("Failed on mixed values.");
         }
